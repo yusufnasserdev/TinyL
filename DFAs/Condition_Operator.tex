@@ -1,0 +1,16 @@
+\documentclass[11pt]{article}
+\usepackage{vaucanson-g}
+\begin{document}
+\ShowGrid
+\ShowFrame
+\begin{VCPicture}{(0,0)(12,10)}
+%4 states
+\State[q0]{(2.46889,8.0754)}{Q0} \FinalState[q1]{(5.075,8.05)}{Q1} \FinalState[q2]{(4.99245,6.14562)}{Q2}
+\FinalState[q3]{(7.48302,8.02592)}{Q3}
+%1 initial-final
+\Initial{Q0}
+%3 transitions
+\EdgeL{Q0}{Q1}{<} \EdgeL{Q0}{Q2}{>=}
+\EdgeL{Q1}{Q3}{>}
+\end{VCPicture}
+\end{document}
