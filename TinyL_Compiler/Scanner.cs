@@ -27,6 +27,7 @@ namespace TinyL_Compiler
     public class Scanner
     {
         public List<Token> Tokens = new List<Token>();
+        List<string> ErrorsList = new List<string>();
         Dictionary<string, Token_Class> ReservedWords = new Dictionary<string, Token_Class>();
         Dictionary<string, Token_Class> Operators = new Dictionary<string, Token_Class>();
         readonly Regex NumberRegex = new Regex(@"[0-9]+(\.[0-9]*)?", RegexOptions.Compiled);
@@ -94,6 +95,7 @@ namespace TinyL_Compiler
                     i = j - 1;
                     FindTokenClass(CurrentLexeme);
                 }
+                // Number
                 else if (char.IsDigit(CurrentChar))
                 {
                     ++j;
@@ -106,6 +108,7 @@ namespace TinyL_Compiler
                     i = j - 1;
                     FindTokenClass(CurrentLexeme);
                 }
+                // Comment or Divide
                 else if (CurrentChar == '/')
                 {
                     CurrentChar = SourceCode[++j];
@@ -125,20 +128,39 @@ namespace TinyL_Compiler
                             ++j;
                         }
                         i = j - 1;
-                        FindTokenClass(CurrentLexeme);
                     }
+                    FindTokenClass(CurrentLexeme);
                 }
-                else if (CurrentChar == '{')
+                // String
+                else if(CurrentChar == '\"')
                 {
-
-                }
-                else if (CurrentChar == '(')
-                {
-
+                    j++;
+                    while(j < SourceCode.Length)
+                    {
+                        CurrentChar = SourceCode[j];
+                        CurrentLexeme += CurrentChar.ToString();
+                        if(CurrentChar == '\"' && SourceCode[j - 1] != '\\')
+                        {
+                            break;
+                        }
+                        j++;
+                    }
+                    i = j - 1;
+                    FindTokenClass(CurrentLexeme);
                 }
                 else
                 {
-
+                    j++;
+                    CurrentChar = SourceCode[j];
+                    while(j < SourceCode.Length && !(char.IsDigit(CurrentChar) || 
+                         char.IsLetter(CurrentChar) || CurrentChar == '\"' || CurrentChar == '/'))
+                    {
+                        CurrentChar = SourceCode[j];
+                        CurrentLexeme += CurrentChar.ToString();
+                        j++;
+                    }
+                    i = j - 1;
+                    FindTokenClass(CurrentLexeme);
                 }
             }
 
@@ -169,12 +191,22 @@ namespace TinyL_Compiler
                 Tokens.Add(Tok);
             }
             //Is it a comment?
-
+            else if (isComment(Lex))
+            {
+                Tok.token_type = Token_Class.Comment;
+                Tokens.Add(Tok);
+            }
             //Is it an operator?
-
+            else if (isOperator(Lex))
+            {
+                Tok.token_type = Operators[Lex];
+                Tokens.Add(Tok);
+            }
             //Is it an undefined?
-
-            
+            else
+            {
+                ErrorsList.Add(Lex);
+            }
         }
 
         bool isIdentifier(string lex)
@@ -184,6 +216,14 @@ namespace TinyL_Compiler
         bool isNumber(string lex)
         {
             return NumberRegex.IsMatch(lex);
+        }
+        bool isComment(string lex)
+        {
+            return CommentRegex.IsMatch(lex);
+        }
+        bool isOperator(string lex)
+        {
+            return Operators.ContainsKey(lex);
         }
     }
 }
