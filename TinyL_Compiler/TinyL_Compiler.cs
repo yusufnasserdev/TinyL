@@ -13,6 +13,7 @@ namespace TinyL_Compiler
         public static List<string> Lexemes = new List<string>();
 
         public static List<Token> TokenStream = new List<Token>();
+        public static List<String> ErrorList = new List<String>();
 
         public static void Start_Compiling(string SourceCode) //character by character
         {
@@ -24,8 +25,13 @@ namespace TinyL_Compiler
 
             //Sematic Analysis
         }
-
-        static void SplitLexemes(string SourceCode)
+        public static void ClearCompiledCode()
+        {
+            Lexemes.Clear();
+            TokenStream.Clear();
+            ErrorList.Clear();
+        }
+        public static void SplitLexemes(string SourceCode)
         {
             string[] Lexemes_arr = SourceCode.Split(' ');
             for (int i = 0; i < Lexemes_arr.Length; i++)
