@@ -80,7 +80,8 @@ namespace TinyL_Compiler
                 char CurrentChar = SourceCode[i];
                 string CurrentLexeme = CurrentChar.ToString();
 
-                if (CurrentChar == ' ' || CurrentChar == '\r' || CurrentChar == '\n')
+                if (CurrentChar == ' ' || CurrentChar == '\r'
+                    || CurrentChar == '\n' || CurrentChar == '\t')
                     continue;
 
                 // Identifier 
@@ -210,6 +211,20 @@ namespace TinyL_Compiler
                 Tok.token_type = Token_Class.Comment;
                 Tokens.Add(Tok);
             }
+            else if (IsCommentError(Lex))
+            {
+                ErrorsList.Add(Lex);
+            }
+            //Is it string?
+            else if (isString(Lex))
+            {
+                Tok.token_type = Token_Class.String;
+                Tokens.Add(Tok);
+            }
+            else if (isStringError(Lex))
+            {
+                ErrorsList.Add(Lex);
+            }
             //Is it an operator?
             else if (isOperator(Lex))
             {
@@ -217,28 +232,25 @@ namespace TinyL_Compiler
                 {
                     Tok.token_type = Operators[Lex];
                     Tokens.Add(Tok);
-                } else
+                }
+                else
                 {
                     foreach (char c in Lex)
                     {
                         if (Operators.ContainsKey(c.ToString()))
                         {
-                            Tokens.Add(new Token {
+                            Tokens.Add(new Token
+                            {
                                 lex = c.ToString(),
                                 token_type = Operators[c.ToString()]
                             });
-                        } else
+                        }
+                        else
                         {
                             ErrorsList.Add(c.ToString());
                         }
                     }
                 }
-            }
-            //Is it string?
-            else if (isString(Lex))
-            {
-                Tok.token_type = Token_Class.String;
-                Tokens.Add(Tok);
             }
             //Is it an undefined?
             else
@@ -260,12 +272,13 @@ namespace TinyL_Compiler
         {
             return CommentRegex.IsMatch(lex);
         }
+        bool IsCommentError(string lex)
+        {
+            return lex.Length > 1 && lex.Substring(0, 2).Equals("/*");
+        }
         bool isOperator(string lex)
         {
-            if (Operators.ContainsKey(lex))
-            {
-                return true;
-            }
+            // Lex // No Leading Spaces
             foreach (char c in lex)
             {
                 if (Operators.ContainsKey(c.ToString()))
@@ -278,6 +291,10 @@ namespace TinyL_Compiler
         bool isString(string lex)
         {
             return StringRegex.IsMatch(lex);
+        }
+        bool isStringError(string lex)
+        {
+            return lex[0] == '"';
         }
     }
 }

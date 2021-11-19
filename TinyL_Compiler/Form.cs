@@ -10,6 +10,7 @@ namespace TinyL_Compiler
 
         private void CompileButton_Click(object sender, EventArgs e)
         {
+            TinyL_Compiler.ClearCompiledCode();
             string sourceCode = sourceCodeTextView.Text.ToString();
             TinyL_Compiler.Start_Compiling(sourceCode);
             DataTable lexemesTable = new DataTable("Lexemes Table");
@@ -20,22 +21,27 @@ namespace TinyL_Compiler
                 lexemesTable.Rows.Add(token.lex, token.token_type.ToString());
             }
             lexemesGridView.DataSource = lexemesTable;
-            //DataTable errorList = new DataTable("Error List");
-            //errorList.Columns.Add("Error");
+            DataTable errorTable = new DataTable("Errors");
+            errorTable.Columns.Add("Error Type");
+            errorTable.Columns.Add("Token");
             foreach (string error in TinyL_Compiler.ErrorList)
             {
-                errorsListView.Items.Add(error);
-                //errorList.Rows.Add(error);
+                errorTable.Rows.Add("Unrecognized Token", error);
             }
+            errorsDataGridView.DataSource = errorTable;
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
+            clearContent();
+        }
+
+        private void clearContent()
+        {
             TinyL_Compiler.ClearCompiledCode();
-            errorsListView.Items.Clear();
+            errorsDataGridView.DataSource = null;
             lexemesGridView.DataSource = null;
             sourceCodeTextView.Text = "";
         }
-
     }
 }

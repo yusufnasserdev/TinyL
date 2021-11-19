@@ -32,13 +32,14 @@
             this.ClearButton = new System.Windows.Forms.Button();
             this.sourceCodeTextView = new System.Windows.Forms.TextBox();
             this.lexemesGridView = new System.Windows.Forms.DataGridView();
-            this.errorsListView = new System.Windows.Forms.ListView();
+            this.errorsDataGridView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.lexemesGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // CompileButton
             // 
-            this.CompileButton.Location = new System.Drawing.Point(13, 527);
+            this.CompileButton.Location = new System.Drawing.Point(12, 527);
             this.CompileButton.Name = "CompileButton";
             this.CompileButton.Size = new System.Drawing.Size(84, 31);
             this.CompileButton.TabIndex = 0;
@@ -61,6 +62,7 @@
             this.sourceCodeTextView.Location = new System.Drawing.Point(12, 12);
             this.sourceCodeTextView.Multiline = true;
             this.sourceCodeTextView.Name = "sourceCodeTextView";
+            this.sourceCodeTextView.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.sourceCodeTextView.Size = new System.Drawing.Size(501, 276);
             this.sourceCodeTextView.TabIndex = 2;
             // 
@@ -69,25 +71,29 @@
             this.lexemesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.lexemesGridView.Location = new System.Drawing.Point(519, 12);
             this.lexemesGridView.Name = "lexemesGridView";
+            this.lexemesGridView.ReadOnly = true;
             this.lexemesGridView.RowHeadersWidth = 51;
             this.lexemesGridView.RowTemplate.Height = 29;
             this.lexemesGridView.Size = new System.Drawing.Size(530, 546);
             this.lexemesGridView.TabIndex = 3;
             // 
-            // errorsListView
+            // errorsDataGridView
             // 
-            this.errorsListView.Location = new System.Drawing.Point(12, 294);
-            this.errorsListView.Name = "errorsListView";
-            this.errorsListView.Size = new System.Drawing.Size(501, 227);
-            this.errorsListView.TabIndex = 4;
-            this.errorsListView.UseCompatibleStateImageBehavior = false;
+            this.errorsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.errorsDataGridView.Location = new System.Drawing.Point(12, 294);
+            this.errorsDataGridView.Name = "errorsDataGridView";
+            this.errorsDataGridView.ReadOnly = true;
+            this.errorsDataGridView.RowHeadersWidth = 51;
+            this.errorsDataGridView.RowTemplate.Height = 29;
+            this.errorsDataGridView.Size = new System.Drawing.Size(500, 227);
+            this.errorsDataGridView.TabIndex = 6;
             // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1061, 570);
-            this.Controls.Add(this.errorsListView);
+            this.Controls.Add(this.errorsDataGridView);
             this.Controls.Add(this.lexemesGridView);
             this.Controls.Add(this.sourceCodeTextView);
             this.Controls.Add(this.ClearButton);
@@ -95,6 +101,7 @@
             this.Name = "Form";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.lexemesGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorsDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -106,6 +113,6 @@
         private Button ClearButton;
         private TextBox sourceCodeTextView;
         private DataGridView lexemesGridView;
-        private ListView errorsListView;
+        private DataGridView errorsDataGridView;
     }
 }
