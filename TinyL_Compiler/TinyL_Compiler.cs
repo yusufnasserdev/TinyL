@@ -13,7 +13,6 @@ namespace TinyL_Compiler
         public static List<string> Lexemes = new List<string>();
 
         public static List<Token> TokenStream = new List<Token>();
-        public static List<String> ErrorList = new List<String>();
 
         public static void Start_Compiling(string SourceCode) //character by character
         {
@@ -29,7 +28,7 @@ namespace TinyL_Compiler
         {
             Lexemes.Clear();
             TokenStream.Clear();
-            ErrorList.Clear();
+            Errors.ErrorsList.Clear();
         }
         public static void SplitLexemes(string SourceCode)
         {

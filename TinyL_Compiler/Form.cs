@@ -24,7 +24,7 @@ namespace TinyL_Compiler
             DataTable errorTable = new DataTable("Errors");
             errorTable.Columns.Add("Error Type");
             errorTable.Columns.Add("Token");
-            foreach (string error in TinyL_Compiler.ErrorList)
+            foreach (string error in Errors.ErrorsList)
             {
                 errorTable.Rows.Add("Unrecognized Token", error);
             }

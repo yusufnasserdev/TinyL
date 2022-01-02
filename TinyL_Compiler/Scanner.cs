@@ -27,7 +27,6 @@ namespace TinyL_Compiler
     public class Scanner
     {
         public List<Token> Tokens = new List<Token>();
-        List<string> ErrorsList = new List<string>();
         Dictionary<string, Token_Class> ReservedWords = new Dictionary<string, Token_Class>();
         Dictionary<string, Token_Class> Operators = new Dictionary<string, Token_Class>();
         readonly Regex NumberRegex = new Regex(@"^[0-9]+(\.[0-9]*)?$", RegexOptions.Compiled);
@@ -180,7 +179,6 @@ namespace TinyL_Compiler
             }
 
             TinyL_Compiler.TokenStream = Tokens;
-            TinyL_Compiler.ErrorList = ErrorsList;
         }
         void FindTokenClass(string Lex)
         {
@@ -213,7 +211,7 @@ namespace TinyL_Compiler
             }
             else if (IsCommentError(Lex))
             {
-                ErrorsList.Add(Lex);
+                Errors.ErrorsList.Add(Lex);
             }
             //Is it string?
             else if (isString(Lex))
@@ -223,7 +221,7 @@ namespace TinyL_Compiler
             }
             else if (isStringError(Lex))
             {
-                ErrorsList.Add(Lex);
+                Errors.ErrorsList.Add(Lex);
             }
             //Is it an operator?
             else if (isOperator(Lex))
@@ -247,7 +245,7 @@ namespace TinyL_Compiler
                         }
                         else
                         {
-                            ErrorsList.Add(c.ToString());
+                            Errors.ErrorsList.Add(c.ToString());
                         }
                     }
                 }
@@ -255,7 +253,7 @@ namespace TinyL_Compiler
             //Is it an undefined?
             else
             {
-                ErrorsList.Add(Lex);
+                Errors.ErrorsList.Add(Lex);
             }
         }
         // Don't forget to add String
@@ -279,6 +277,9 @@ namespace TinyL_Compiler
         bool isOperator(string lex)
         {
             // Lex // No Leading Spaces
+            if (Operators.ContainsKey(lex)) {
+                return true;
+            }
             foreach (char c in lex)
             {
                 if (Operators.ContainsKey(c.ToString()))
