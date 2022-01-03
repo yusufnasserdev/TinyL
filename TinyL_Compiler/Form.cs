@@ -29,6 +29,7 @@ namespace TinyL_Compiler
                 errorTable.Rows.Add("Unrecognized Token", error);
             }
             errorsDataGridView.DataSource = errorTable;
+            parseTreeView.Nodes.Add(Parser.PrintParseTree(TinyL_Compiler.tree));
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
@@ -42,6 +43,11 @@ namespace TinyL_Compiler
             errorsDataGridView.DataSource = null;
             lexemesGridView.DataSource = null;
             sourceCodeTextView.Text = "";
+            parseTreeView.Nodes.Clear();
+        }
+
+        private void parseTreeView_AfterSelect(object sender, TreeViewEventArgs e) {
+
         }
     }
 }

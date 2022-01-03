@@ -13,6 +13,8 @@ namespace TinyL_Compiler
         public static List<string> Lexemes = new List<string>();
 
         public static List<Token> TokenStream = new List<Token>();
+        public static Parser parser;
+        public static Node tree;
 
         public static void Start_Compiling(string SourceCode) //character by character
         {
@@ -21,7 +23,8 @@ namespace TinyL_Compiler
             TinyL_Scanner.StartScanning(SourceCode);
 
             //Parser
-
+            parser = new Parser(TokenStream);
+            tree = parser.StartParsing();
             //Sematic Analysis
         }
         public static void ClearCompiledCode()

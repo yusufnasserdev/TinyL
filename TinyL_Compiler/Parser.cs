@@ -19,22 +19,53 @@ namespace TinyL_Compiler {
         private int StreamIndex;
         private List<Token> TokenStream;
         public Node? Root;
+        private List<string> functionsIdentifiers;
         public Parser(List<Token> TokenStream) {
+            functionsIdentifiers = new List<string>();
             this.TokenStream = TokenStream;
             StreamIndex = 0;
             Root = null;
         }
         public Node? StartParsing() {
             // TODO:
+            Root = Program();
+            Dictionary<string, int> repetation = new Dictionary<string, int>();
+            bool validNames = true;
+            foreach (string functionIdentifier in functionsIdentifiers) {
+                if (!repetation.ContainsKey(functionIdentifier)) {
+                    repetation.Add(functionIdentifier, 1);
+                } else {
+                    validNames = false;
+                    Errors.ErrorsList.Add("Redeclaration of the function: " + functionIdentifier);
+                }
+            }
+            if (functionsIdentifiers.Count == 0 || functionsIdentifiers.Last() != "main") {
+                Errors.ErrorsList.Add("`main` function is not found at the end of the file.");
+                validNames = false;
+            }
+            if (validNames) {
+                return Root;
+            }
             return null;
         }
-        public Node? match(Token_Class ExpectedToken) {
+        private Node? Program() {
+            Node? program = new Node("Program");
+            Node? functions = Functions();
+            if (functions != null) {
+                program.Children.Add(functions);
+                return program;
+            }
+            return null;
+        }
+        public Node? match(Token_Class ExpectedToken, Node caller) {
 
             if (StreamIndex < TokenStream.Count) {
                 if (ExpectedToken == TokenStream[StreamIndex].token_type) {
+                    Node newNode = new Node(TokenStream[StreamIndex].lex);
                     StreamIndex++;
-                    Node newNode = new Node(ExpectedToken.ToString());
-
+                    if (caller.Name == "FunctionDeclaration" && ExpectedToken == Token_Class.Identifier) {
+                        functionsIdentifiers.Add(newNode.Name);
+                    }
                     return newNode;
 
                 } else {

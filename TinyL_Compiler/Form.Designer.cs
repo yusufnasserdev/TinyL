@@ -33,6 +33,7 @@
             this.sourceCodeTextView = new System.Windows.Forms.TextBox();
             this.lexemesGridView = new System.Windows.Forms.DataGridView();
             this.errorsDataGridView = new System.Windows.Forms.DataGridView();
+            this.parseTreeView = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.lexemesGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorsDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -74,7 +75,7 @@
             this.lexemesGridView.ReadOnly = true;
             this.lexemesGridView.RowHeadersWidth = 51;
             this.lexemesGridView.RowTemplate.Height = 29;
-            this.lexemesGridView.Size = new System.Drawing.Size(530, 546);
+            this.lexemesGridView.Size = new System.Drawing.Size(390, 546);
             this.lexemesGridView.TabIndex = 3;
             // 
             // errorsDataGridView
@@ -88,11 +89,20 @@
             this.errorsDataGridView.Size = new System.Drawing.Size(500, 227);
             this.errorsDataGridView.TabIndex = 6;
             // 
+            // parseTreeView
+            // 
+            this.parseTreeView.Location = new System.Drawing.Point(915, 12);
+            this.parseTreeView.Name = "parseTreeView";
+            this.parseTreeView.Size = new System.Drawing.Size(404, 546);
+            this.parseTreeView.TabIndex = 7;
+            this.parseTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.parseTreeView_AfterSelect);
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1061, 570);
+            this.ClientSize = new System.Drawing.Size(1331, 570);
+            this.Controls.Add(this.parseTreeView);
             this.Controls.Add(this.errorsDataGridView);
             this.Controls.Add(this.lexemesGridView);
             this.Controls.Add(this.sourceCodeTextView);
@@ -114,5 +124,6 @@
         private TextBox sourceCodeTextView;
         private DataGridView lexemesGridView;
         private DataGridView errorsDataGridView;
+        private TreeView parseTreeView;
     }
 }
