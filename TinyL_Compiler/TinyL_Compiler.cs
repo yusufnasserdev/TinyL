@@ -21,8 +21,15 @@ namespace TinyL_Compiler
             //Scanner
 
             TinyL_Scanner.StartScanning(SourceCode);
-
+            if (Errors.ErrorsList.Count > 0) {
+                return;
+            }
             //Parser
+            List<Token> TokenStream = new List<Token>();
+            foreach (Token token in TinyL_Compiler.TokenStream) {
+                if (token.token_type == Token_Class.Comment) { continue; }
+                TokenStream.Add(token);
+            }
             parser = new Parser(TokenStream);
             tree = parser.StartParsing();
             //Sematic Analysis

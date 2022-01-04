@@ -62,10 +62,14 @@ namespace TinyL_Compiler {
         private Node? FunctionBody() {
             Node functionBody = new Node("FunctionBody");
             Node? lBrace = match(Token_Class.LBrace, functionBody);
-            Node? statements = Statements();
+            Node? statements = Statements(functionBreaker);
             Node? rBrace = match(Token_Class.RBrace, functionBody);
-            if (lBrace == null || statements == null || rBrace == null ||
+            if (lBrace == null || statements == null || rBrace == null) {
+                return null;
+            }
+            if (statements.Children.Count == 0 ||
                 statements.Children.Last().Name != "Return") {
+                Errors.ErrorsList.Add("Expected return at the end of the function!");
                 return null;
             }
             functionBody.Children.Add(lBrace);

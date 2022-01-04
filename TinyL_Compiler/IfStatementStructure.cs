@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TinyL_Compiler {
     partial class Parser {
+        bool LookaheadIf() {
+            return (StreamIndex < TokenStream.Count && TokenStream[StreamIndex].token_type == Token_Class.If);
+        }
         private Node? IfStatement() {
             Node ifKeyword = new Node("If");
             Node next = ifKeyword;
@@ -13,7 +16,7 @@ namespace TinyL_Compiler {
                 Node? matchedIf = match(next == ifKeyword ? Token_Class.If : Token_Class.ElseIf, next);
                 Node? conditions = Conditions();
                 Node? matchedThen = match(Token_Class.Then, next);
-                Node? statements = Statements();
+                Node? statements = Statements(ifElseIfBreaker);
                 if (matchedIf == null || conditions == null ||
                     matchedThen == null || statements == null) {
                     return null;
@@ -43,7 +46,7 @@ namespace TinyL_Compiler {
             if (tokenClass == Token_Class.Else) {
                 Node elseStatement = new Node("Else");
                 elseStatement.Children.Add(match(tokenClass, elseStatement));
-                Node? statements = Statements();
+                Node? statements = Statements(elseBreaker);
                 if (statements == null) {
                     return;
                 }

@@ -12,7 +12,7 @@ public enum Token_Class
     Repeat, Until, If, ElseIf, Else, Then, Return, Endl, PlusOp,
     MinusOp, MultiplyOp, DivideOp, AssignOp, LParenthesis,
     RParenthesis, OrOp, AndOp, GreaterThanOp, LessThanOp, Comma,
-    NotEqualOp, EqualOp, RBrace, LBrace, Semicolon, End
+    NotEqualOp, EqualOp, RBrace, LBrace, Semicolon, End, StringLiteral
 }
 
 namespace TinyL_Compiler
@@ -216,7 +216,7 @@ namespace TinyL_Compiler
             //Is it string?
             else if (isString(Lex))
             {
-                Tok.token_type = Token_Class.String;
+                Tok.token_type = Token_Class.StringLiteral;
                 Tokens.Add(Tok);
             }
             else if (isStringError(Lex))

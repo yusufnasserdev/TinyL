@@ -20,14 +20,51 @@ namespace TinyL_Compiler {
         private List<Token> TokenStream;
         public Node? Root;
         private List<string> functionsIdentifiers;
+        private static readonly List<Token_Class> ifElseIfBreaker = new List<Token_Class>() {
+            Token_Class.ElseIf, Token_Class.Else, Token_Class.End
+        };
+        private static readonly List<Token_Class> elseBreaker = new List<Token_Class> {
+            Token_Class.End
+        };
+        private static readonly List<Token_Class> functionBreaker = new List<Token_Class> {
+            Token_Class.RBrace
+        };
+        private static readonly List<Token_Class> repeatBreaker = new List<Token_Class> {
+            Token_Class.Until
+        };
+        private delegate bool Lookahead();
+        private delegate Node? Statement();
+        private Lookahead[] lookaheads;
+        private Statement[] lookedStatements;
         public Parser(List<Token> TokenStream) {
             functionsIdentifiers = new List<string>();
             this.TokenStream = TokenStream;
             StreamIndex = 0;
             Root = null;
+            lookaheads = new Lookahead[] {
+                LookaheadRepeat,
+                LookaheadIf,
+                LookaheadDatatype,
+                LookaheadAssignmentStatement,
+                LookaheadFunctionCall,
+                LookaheadReadStatement,
+                LookaheadWriteStatement,
+                LookaheadReturn
+            };
+            lookedStatements = new Statement[] {
+                RepeatStatement,
+                IfStatement,
+                DeclarationStatements,
+                AssignmentStatement,
+                FunctionCall,
+                ReadStatement,
+                WriteStatement,
+                ReturnStatement
+            };
         }
         public Node? StartParsing() {
             // TODO:
+            //return RepeatStatement();
             Root = Program();
             Dictionary<string, int> repetation = new Dictionary<string, int>();
             bool validNames = true;
