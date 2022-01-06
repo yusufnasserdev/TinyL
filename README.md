@@ -7,7 +7,7 @@ A TinyL compiler consists mainly of two phases:
 ## Lexical Analysis Phase
 It takes the TinyL code and scans it token by token. Then, it producues a DataGridView with every lexeme and its token type. Also, there is an error list which catches the lexemes which has no token type and generates it in a DataGridView. 
 
-## Sytanx Analysis Phase
+## Syntax Analysis Phase
 It is a discovering structure phase in the code which determines whether a text follows the expected format.
 - Obtain tokens from the lexical analyzer.
 - Checks if the expression is syntactically correct or not.
