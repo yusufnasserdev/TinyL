@@ -82,6 +82,7 @@ namespace TinyL_Compiler {
                 if (term == null) {
                     return false;
                 }
+                equation.Children.Add(term);
             }
             return true;
         }
